@@ -1,12 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlant", "GrowingPlant.csproj", "{877AFA34-CB68-F11E-8A0E-DC874CBDC9B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrowingPlant.Editor", "GrowingPlant.Editor.csproj", "{73870999-3DFB-B493-AC36-381042083E9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{877AFA34-CB68-F11E-8A0E-DC874CBDC9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877AFA34-CB68-F11E-8A0E-DC874CBDC9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877AFA34-CB68-F11E-8A0E-DC874CBDC9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877AFA34-CB68-F11E-8A0E-DC874CBDC9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73870999-3DFB-B493-AC36-381042083E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73870999-3DFB-B493-AC36-381042083E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73870999-3DFB-B493-AC36-381042083E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73870999-3DFB-B493-AC36-381042083E9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
