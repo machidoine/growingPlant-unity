@@ -27,7 +27,7 @@
 
 #endregion
 
-//#define SOCKET_IO_DEBUG			// Uncomment this for debug
+#define SOCKET_IO_DEBUG			// Uncomment this for debug
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -308,6 +308,7 @@ namespace SocketIO
 			try {
 				ws.Send(encoder.Encode(packet));
 			} catch(SocketIOException ex) {
+                throw new Exception("Send exception",ex);
 				#if SOCKET_IO_DEBUG
 				debugMethod.Invoke(ex.ToString());
 				#endif
@@ -380,7 +381,9 @@ namespace SocketIO
 		private void OnError(object sender, ErrorEventArgs e)
 		{
 			EmitEvent("error");
-		}
+            Debug.Log(sender);
+            Debug.Log(e);
+        }
 
 		private void OnClose(object sender, CloseEventArgs e)
 		{

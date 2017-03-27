@@ -5,33 +5,50 @@ using UnityEngine;
 using System;
 
 public class GrowingPlantService : MonoBehaviour {
+    public Inventory inventory;
+    public LaboratorySeeds labo;
 
-	// Use this for initialization
-	void Start () {
+    SocketIOComponent socket;
+
+    // Use this for initialization
+    void Start () {
+        labo.OnCombineSeed.AddListener(CombineSeed);
+
         Debug.Log("connecting....");
         GameObject go = GameObject.Find("SocketIO");
-        var socket = go.GetComponent<SocketIOComponent>();
+        socket = go.GetComponent<SocketIOComponent>();
         socket.Connect();
-        socket.On("updateInventory", onUpdateInvotory);
-        socket.Emit("removeSeed"); // TODO : does not work !
-        Debug.Log("seed removed");
+        socket.On("updateInventory", onUpdateInventory);
     }
 
-    private void onUpdateInvotory(SocketIOEvent obj)
+    public void CombineSeed(List<Seed> seed)
     {
-        var stock = obj.data.GetField("stock").list;
-        foreach(var item in stock)
-        {
-            Debug.Log(item.GetField("id"));
-            foreach(var skill in item.GetField("skills").list)
-            {
-                Debug.Log(skill);
-            }
-        }        
+        List<int> seedId = seed.ConvertAll(s => s.id);
+        
+        socket.Emit("combineSeeds", new JSONObject(JsonUtility.ToJson(new SeedContainer<int>(seedId))));
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    [Serializable]
+    class SeedContainer<T>
+    {
+        public List<T> seeds;
+        
+        public SeedContainer(List<T> seeds)
+        {
+            this.seeds = seeds;
+        }
+    }
+
+    private void onUpdateInventory(SocketIOEvent obj)
+    {
+        var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
+
+        inventory.Clear();
+
+        foreach (Seed seed in seedContainer.seeds) {
+            inventory.AddItem(seed);
+        }
+    
+    }
+
 }

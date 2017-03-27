@@ -100,7 +100,7 @@ namespace SocketIO
 						Debug.Log("[SocketIO] Parsing JSON: " + data.Substring(offset));
 						#endif
 						packet.json = new JSONObject(data.Substring(offset));
-					} catch (Exception ex) {
+                     } catch (Exception ex) {
 						Debug.LogException(ex);
 					}
 				}
