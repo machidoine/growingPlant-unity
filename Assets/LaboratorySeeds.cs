@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class LaboratorySeeds : MonoBehaviour, IDropHandler
 {
     public List<InventoryItemSeed> items;
+    public Inventory inventory;
 
     public CombineSeedEvent OnCombineSeed { get; set; }
 
@@ -32,7 +33,13 @@ public class LaboratorySeeds : MonoBehaviour, IDropHandler
         Clear();
     }
 
-    private void Clear()
+    public void ResetLaboratory()
+    {
+        items.ForEach(i => inventory.AddItem(i));
+        items.Clear();
+    }
+
+    public void Clear()
     {
         foreach (var item in items)
         {
