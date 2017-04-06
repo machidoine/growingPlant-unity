@@ -7,19 +7,10 @@ using UnityEngine.UI;
 
 public class InventoryItemSeed : InventoryItem
 {
-
-
-    public ParentChangedEvent ParentChanged { get; set; }
     public Text IdText;
     private Seed _model;
     public float Id { set { IdText.text = value.ToString(); } }
-
-
-    void Awake()
-    {
-        ParentChanged = new ParentChangedEvent();
-    }
-
+    
     public Seed Model
     {
         set
@@ -31,12 +22,6 @@ public class InventoryItemSeed : InventoryItem
         {
             return _model;
         }
-    }
-
-    public void DroppedOn(LaboratorySeeds laboratorySeeds)
-    {
-        this.transform.SetParent(laboratorySeeds.transform);
-        ParentChanged.Invoke(this);
     }
 
     [Serializable]

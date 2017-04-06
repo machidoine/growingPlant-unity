@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class LaboratorySeeds : MonoBehaviour, IDropHandler
+public class LaboratorySeeds : MonoBehaviour
 {
     public List<InventoryItemSeed> items;
     public Inventory inventory;
@@ -17,12 +17,11 @@ public class LaboratorySeeds : MonoBehaviour, IDropHandler
         OnCombineSeed = new CombineSeedEvent();
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public void ElementDropped(DropEventArg dropEventData)
     {
-        GameObject target = eventData.pointerDrag.gameObject;
+        GameObject target = dropEventData.target;
 
         var seedItem = target.GetComponent<InventoryItemSeed>();
-        seedItem.DroppedOn(this);
 
         items.Add(seedItem);
     }
