@@ -29,6 +29,7 @@ public class LaboratorySeeds : MonoBehaviour, IDropHandler
 
     public void CombineSeed()
     {
+        // call GrowingPlantService.CombineSeed
         OnCombineSeed.Invoke(items.ConvertAll(item => item.Model));
         Clear();
     }
