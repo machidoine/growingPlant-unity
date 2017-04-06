@@ -39,6 +39,11 @@ public class InventoryItemSeed : InventoryItem
         ParentChanged.Invoke(this);
     }
 
+    public void DroppedOn(GardenDropper laboratorySeeds)
+    {
+        ParentChanged.Invoke(this);
+    }
+
     [Serializable]
     public class ParentChangedEvent : UnityEvent<InventoryItemSeed> { };
 }

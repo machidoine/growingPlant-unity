@@ -9,6 +9,7 @@ public class GrowingPlantService : MonoBehaviour
     public Inventory inventory;
     public LaboratorySeeds labo;
     public GardenElementFactory gardenElementFactory;
+    public Garden garden;
 
     SocketIOComponent socket;
 
@@ -33,11 +34,27 @@ public class GrowingPlantService : MonoBehaviour
         socket.On("gridElementReceive", onGridUpdate);
     }
 
+    public void PlantSeed(GardenDroppedEventArg gardenArg)
+    {
+        Debug.Log("plant seed " + gardenArg);
+        socket.Emit("addSeed", new JSONObject(JsonUtility.ToJson(new AddSeed
+        {
+            seedId = gardenArg.id,
+            direction = "up",
+            position = gardenArg.position
+        })));
+    }
+
     private void onGridUpdate(SocketIOEvent obj)
     {
         Debug.Log("Grid receibe : " + obj.data.ToString());
         var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
-        
+
+        foreach(Transform child in garden.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         seedContainer.seeds.ForEach(s =>
         {
             var gardenElement = gardenElementFactory.createGardenElement(s.type);
@@ -62,6 +79,13 @@ public class GrowingPlantService : MonoBehaviour
         {
             this.seeds = seeds;
         }
+    }
+    [Serializable]
+    class AddSeed
+    {
+        public int seedId;
+        public Position position;
+        public string direction;
     }
 
     private void onUpdateInventory(SocketIOEvent obj)
