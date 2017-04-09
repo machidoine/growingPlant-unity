@@ -47,7 +47,7 @@ public class GrowingPlantService : MonoBehaviour
 
     private void onGridUpdate(SocketIOEvent obj)
     {
-        Debug.Log("Grid receibe : " + obj.data.ToString());
+        Debug.Log("Grid receive : " + obj.data.ToString());
         var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
 
         foreach(Transform child in garden.transform)
@@ -92,13 +92,7 @@ public class GrowingPlantService : MonoBehaviour
     {
         var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
 
-        inventory.Clear();
-
-        foreach (Seed seed in seedContainer.seeds)
-        {
-            inventory.AddItem(seed);
-        }
-
+        inventory.mergeWith(seedContainer.seeds);
     }
 
 }
