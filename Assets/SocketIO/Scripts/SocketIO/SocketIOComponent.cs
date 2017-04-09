@@ -312,10 +312,10 @@ namespace SocketIO
 			try {
 				ws.Send(encoder.Encode(packet));
 			} catch(SocketIOException ex) {
+#if SOCKET_IO_DEBUG
+                debugMethod.Invoke(ex.ToString());
+#endif
                 throw new Exception("Send exception",ex);
-				#if SOCKET_IO_DEBUG
-				debugMethod.Invoke(ex.ToString());
-				#endif
 			}
 		}
 
