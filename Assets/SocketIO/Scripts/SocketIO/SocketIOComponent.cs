@@ -157,6 +157,9 @@ namespace SocketIO
 		{
 			if (socketThread != null) 	{ socketThread.Abort(); }
 			if (pingThread != null) 	{ pingThread.Abort(); }
+            Debug.Log("socket threads aborted");
+            if(ws != null ) ws.Close();
+            Debug.Log("socket closed");
 		}
 
 		public void OnApplicationQuit()
@@ -183,6 +186,7 @@ namespace SocketIO
 		{
 			EmitClose();
 			connected = false;
+            Debug.Log("connection closed");
 		}
 
 		public void On(string ev, Action<SocketIOEvent> callback)
