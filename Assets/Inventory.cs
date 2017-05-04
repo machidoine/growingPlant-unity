@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
 
     private void SeedParentChanged(InventoryItemSeed seed)
     {
-        items.Remove(seed);
+        //items.Remove(seed);
         seed.ParentChanged.RemoveListener(SeedParentChanged);
     }
 

@@ -36,7 +36,7 @@ public class LaboratorySeeds : MonoBehaviour, IDropHandler
 
     public void ResetLaboratory()
     {
-        items.ForEach(i => inventory.AddItem(i));
+        items.ForEach(i => i.transform.SetParent(inventory.transform));
         items.Clear();
     }
 
