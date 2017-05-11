@@ -8,18 +8,9 @@ public class GrowingPlantService : MonoBehaviour
 {
     public Inventory inventory;
     public LaboratorySeeds labo;
-    public GardenElementFactory gardenElementFactory;
     public Garden garden;
 
     SocketIOComponent socket;
-
-    private Dictionary<string, int> directions = new Dictionary<string, int>()
-    {
-        {"up",0 },
-        {"down",-180 },
-        {"left",90 },
-        {"right",-90 },
-    };
 
     // Use this for initialization
     void Start()
@@ -49,18 +40,7 @@ public class GrowingPlantService : MonoBehaviour
     {
         Debug.Log("Grid receive : " + obj.data.ToString());
         var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
-
-        foreach(Transform child in garden.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        seedContainer.seeds.ForEach(s =>
-        {
-            var gardenElement = gardenElementFactory.createGardenElement(s.type);
-            gardenElement.transform.position = new Vector2(s.position.x, s.position.y);
-            gardenElement.transform.Rotate(0, 0, directions[s.direction]);
-        });
+        garden.MergeGrid(seedContainer.seeds);
     }
 
     public void CombineSeed(List<Seed> seed)

@@ -9,12 +9,12 @@ public class GardenElementFactory : MonoBehaviour {
     public List<Sprite> sprites;
     public GameObject gardenElementPrefab;
     
-    public GameObject createGardenElement(string name)
+    public GardenElement createGardenElement(string name)
     {
         GameObject gardenElement = Instantiate(gardenElementPrefab);
         var spriteRender = gardenElement.GetComponent<SpriteRenderer>();
         spriteRender.sprite = sprites.Find(s => s.name == name);
         gardenElement.transform.SetParent(garden.transform);
-        return gardenElement;
+        return gardenElement.GetComponent<GardenElement>();
     }
 }

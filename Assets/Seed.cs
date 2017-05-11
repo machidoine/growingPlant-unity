@@ -13,6 +13,7 @@ public class Seed
     public string direction;
     public string team;
     public string type;
+    public string hash;
 }
 /*
     [  
@@ -27,7 +28,8 @@ public class Seed
          },
          "direction":"up",
          "team":"team3",
-         "type":"seed"
+         "type":"seed",
+         "hash":"XXXXXXXXXXXXXXXXX"
       }
    ]
 */
