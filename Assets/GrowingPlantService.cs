@@ -12,6 +12,23 @@ public class GrowingPlantService : MonoBehaviour
 
     SocketIOComponent socket;
 
+    internal void changeDirection(int seedId, Directions direction)
+    {
+        socket.Emit("changeSeedDirection", new JSONObject(JsonUtility.ToJson(new ChangeDirection
+        {
+            seedId = seedId,
+            direction = direction.ToString().ToLower()
+        })));
+    }
+
+    internal void RemovePlant(int seedId)
+    {
+        socket.Emit("removeSeed", new JSONObject(JsonUtility.ToJson(new RemoveSeed
+        {
+            seedId = seedId
+        })));
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -68,6 +85,19 @@ public class GrowingPlantService : MonoBehaviour
         public string direction;
     }
 
+    [Serializable]
+    class RemoveSeed
+    {
+        public int seedId;
+    }
+
+    [Serializable]
+    class ChangeDirection
+    {
+        public int seedId;
+        public string direction;
+    }
+
     private void onUpdateInventory(SocketIOEvent obj)
     {
         var seedContainer = JsonUtility.FromJson<SeedContainer<Seed>>(obj.data.ToString());
@@ -75,4 +105,12 @@ public class GrowingPlantService : MonoBehaviour
         inventory.mergeWith(seedContainer.seeds);
     }
 
+}
+
+public enum Directions
+{
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT
 }

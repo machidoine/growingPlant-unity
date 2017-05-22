@@ -7,9 +7,7 @@ public class SkillInventoryCounter : MonoBehaviour {
     public Text value;
     public Image image;
     public Color Color { set { image.color = value; } }
-
-
-
+    
     public int Value
     {
         set

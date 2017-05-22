@@ -6,6 +6,7 @@ using UnityEngine;
 public class Garden : MonoBehaviour
 {
     public GardenElementFactory gardenElementFactory;
+    public PlantPanelController plantPanel;
 
     private List<GardenElement> elementPresent = new List<GardenElement>();
     private Dictionary<string, int> directions = new Dictionary<string, int>()
@@ -16,6 +17,11 @@ public class Garden : MonoBehaviour
         {"right",-90 },
     };
 
+    public void ShowPlantInfo(Seed seed)
+    {
+        plantPanel.show(seed);
+    }
+
     internal void MergeGrid(List<Seed> seeds)
     {
         Merger.Merge(elementPresent.ConvertAll(e => e.Seed), seeds, new HashSeedComparer(),
@@ -23,6 +29,7 @@ public class Garden : MonoBehaviour
             {
                 var gardenElement = gardenElementFactory.createGardenElement(addedSeed.type);
                 gardenElement.Seed = addedSeed;
+                gardenElement.garden = this;
 
                 gardenElement.transform.position = new Vector2(addedSeed.position.x, addedSeed.position.y);
                 gardenElement.transform.Rotate(0, 0, directions[addedSeed.direction]);
@@ -33,8 +40,9 @@ public class Garden : MonoBehaviour
             (removedSeed) =>
             {
                 var element = elementPresent.Find(e => e.Seed.hash == removedSeed.hash);
-                Destroy(element);
+                Debug.Log("elemnt to delete " + element);
                 elementPresent.Remove(element);
+                Destroy(element.gameObject);
                 Debug.Log("Remove seed with hash " + removedSeed.hash);
             }
         );
