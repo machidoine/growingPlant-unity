@@ -10,6 +10,11 @@ public class PlantPanelController : MonoBehaviour {
     
     public Seed seed { get; set; }
 
+    public void Start()
+    {
+        this.hide();
+    }
+
     public void goLeft()
     {
         growingPlantService.changeDirection(seed.id, Directions.LEFT);
