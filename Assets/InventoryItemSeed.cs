@@ -11,9 +11,8 @@ public class InventoryItemSeed : InventoryItem
     public Text IdText;
     private Seed _model;
 
-    public Transform skillPanel;
-    public SkillColor[] skillColors;
-    public SkillInventoryCounter skillFab;
+    
+    public SkillPanelController skillPanelController;   
 
     public float Id { set { IdText.text = value.ToString(); } }
 
@@ -21,6 +20,7 @@ public class InventoryItemSeed : InventoryItem
     void Awake()
     {
         ParentChanged = new ParentChangedEvent();
+        //skillPanel = Instantiate(skillPanelPrefab, this.transform, false);
     }
 
     public Seed Model
@@ -29,12 +29,7 @@ public class InventoryItemSeed : InventoryItem
         {
             Id = value.id;
             _model = value;
-
-            addSkill(value.skills.attack, SkillTypeEnum.Attack);
-            addSkill(value.skills.defense, SkillTypeEnum.Defense);
-            addSkill(value.skills.fertility, SkillTypeEnum.Fertility);
-            addSkill(value.skills.growth, SkillTypeEnum.Growth);
-            addSkill(value.skills.victory, SkillTypeEnum.Victory);
+            skillPanelController.SeedSkill = _model.skills;
         }
         get
         {
@@ -53,17 +48,7 @@ public class InventoryItemSeed : InventoryItem
         ParentChanged.Invoke(this);
     }
 
-    private void addSkill(int value, SkillTypeEnum skillType)
-    {
-        if (value != 0)
-        {
-            var skill = Instantiate(skillFab, skillPanel);
-            skill.Value = value;
-
-            var skillC = Array.Find(skillColors, skillColor => skillColor.skillType == skillType);
-            skill.Color = skillC.color;
-        }
-    }
+    
 
     [Serializable]
     public class ParentChangedEvent : UnityEvent<InventoryItemSeed> { };

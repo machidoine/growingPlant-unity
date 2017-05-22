@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlantPanelController : MonoBehaviour {
+    public SkillPanelController skillPanelController;
+
     public GrowingPlantService growingPlantService;
     
     public Seed seed { get; set; }
@@ -37,6 +39,7 @@ public class PlantPanelController : MonoBehaviour {
     internal void show(Seed seed)
     {
         this.seed = seed;
+        skillPanelController.SeedSkill = seed.skills;
         this.gameObject.SetActive(true);
     }
 
