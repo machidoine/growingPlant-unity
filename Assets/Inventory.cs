@@ -26,6 +26,7 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(Seed seed)
     {
         var itemToRemove = items.Find(item => item.Model.id == seed.id);
+        items.Remove(itemToRemove);
         Destroy(itemToRemove);
     }
 
@@ -42,31 +43,25 @@ public class Inventory : MonoBehaviour
 
     private void SeedParentChanged(InventoryItemSeed seed)
     {
-        //items.Remove(seed);
+        // TODO déplacer ce remove au moment où la seed est planté (sinon, lors d'un updateInventory, pendant le drag, elle ré-apparait dans l'inventaire)
+        items.Remove(seed);
         seed.ParentChanged.RemoveListener(SeedParentChanged);
     }
 
     public void mergeWith(List<Seed> seeds)
     {
-        HashSet<Seed> itemSet = new HashSet<Seed>(items.ConvertAll(item => item.Model), new SeedIdComparer());
-        HashSet<Seed> newSeeds = new HashSet<Seed>(seeds, new SeedIdComparer());
-        newSeeds.ExceptWith(itemSet);
-
-        HashSet<Seed> removedSeeds = new HashSet<Seed>(itemSet, new SeedIdComparer());
-        removedSeeds.ExceptWith(seeds);
-
-        foreach(var newSeed in newSeeds)
-        {
-            AddItem(newSeed);
-            Debug.Log("Add seed with ID : " + newSeed.id);
-        }
-
-        foreach (var removedSeed in removedSeeds)
-        {
-            RemoveItem(removedSeed);
-            Debug.Log("Remove seed with ID : " + removedSeed.id);
-        }
-
+        Merger.Merge(items.ConvertAll(item => item.Model), seeds, new SeedIdComparer(),
+            (addedSeed) =>
+            {
+                AddItem(addedSeed);
+                Debug.Log("Add seed with ID : " + addedSeed.id);
+            },
+            (removedSeed) =>
+            {
+                RemoveItem(removedSeed);
+                Debug.Log("Remove seed with ID : " + removedSeed.id);
+            }
+       );
     }
 }
 
